@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reels-maker / Editor | Kariéra — Socialmind</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Navbar */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 48px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+  }
+  .navbar .logo {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a1a1a;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .navbar .logo .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #8b5cf6;
+  }
+  .navbar .cta-nav {
+    padding: 12px 28px;
+    border: 2px solid #1a1a1a;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .navbar .cta-nav:hover {
+    background: #1a1a1a;
+    color: #fff;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 160px 48px 80px;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero h1 {
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+  }
+  .hero h1 span {
+    color: #8b5cf6;
+  }
+  .hero .tags {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 28px 0 40px;
+    flex-wrap: wrap;
+  }
+  .hero .tag {
+    padding: 8px 20px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+  }
+  .hero .intro {
+    font-size: 18px;
+    color: #374151;
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  /* Roles */
+  .roles {
+    padding: 60px 48px 80px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .roles .lead {
+    font-size: 18px;
+    color: #6b7280;
+    margin-bottom: 32px;
+  }
+  .role-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 640px) { .role-cards { grid-template-columns: 1fr; } }
+  .role-card {
+    padding: 36px;
+    border-radius: 20px;
+    background: #f3f0ff;
+    transition: transform 0.2s;
+  }
+  .role-card:hover { transform: translateY(-2px); }
+  .role-card .icon { font-size: 28px; margin-bottom: 16px; }
+  .role-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; color: #1a1a1a; }
+  .role-card p { color: #4b5563; font-size: 15px; line-height: 1.7; }
+  .role-card .tag-sm {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    background: rgba(139, 92, 246, 0.15);
+    color: #7c3aed;
+  }
+
+  /* Clients */
+  .clients {
+    padding: 60px 48px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .clients h2 {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 32px;
+  }
+  .clients h2 span { color: #8b5cf6; }
+  .client-logos {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .client-logos span {
+    font-size: 18px;
+    font-weight: 700;
+    color: #9ca3af;
+    letter-spacing: -0.3px;
+  }
+
+  /* Sections */
+  .section {
+    padding: 80px 48px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .section h2 {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 32px;
+    color: #1a1a1a;
+  }
+  .section h2 span { color: #8b5cf6; }
+
+  .section ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .section ul li {
+    font-size: 16px;
+    color: #374151;
+    padding-left: 24px;
+    position: relative;
+    line-height: 1.7;
+  }
+  .section ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #8b5cf6;
+  }
+  .section ul li strong { color: #1a1a1a; font-weight: 600; }
+
+  /* Highlight box */
+  .highlight-box {
+    padding: 48px;
+    border-radius: 20px;
+    background: #f3f0ff;
+    margin-bottom: 24px;
+  }
+  .highlight-box .big-text {
+    font-size: 26px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+  .highlight-box p {
+    color: #4b5563;
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .after-highlight {
+    color: #4b5563;
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  /* Collab grid */
+  .collab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 640px) { .collab-grid { grid-template-columns: 1fr; } }
+  .collab-item {
+    padding: 28px;
+    border-radius: 20px;
+    background: #f9fafb;
+    border: 1px solid #f3f4f6;
+  }
+  .collab-item .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #8b5cf6;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .collab-item p { color: #4b5563; font-size: 15px; }
+  .collab-item p strong { color: #1a1a1a; }
+
+  /* Benefits */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 768px) { .benefits-grid { grid-template-columns: 1fr; } }
+  .benefit {
+    padding: 28px;
+    border-radius: 20px;
+    background: #f3f0ff;
+  }
+  .benefit .benefit-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(139, 92, 246, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 22px;
+  }
+  .benefit h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+  }
+  .benefit p { color: #4b5563; font-size: 14px; line-height: 1.6; }
+
+  /* Advantage note */
+  .advantage {
+    margin-top: 28px;
+    padding: 24px 28px;
+    border-radius: 16px;
+    background: #fffbeb;
+    border: 1px solid #fef3c7;
+  }
+  .advantage p { color: #92400e; font-size: 15px; }
+  .advantage p strong { color: #78350f; }
+
+  /* CTA */
+  .cta {
+    padding: 100px 48px;
+    text-align: center;
+    background: #fafafa;
+    margin-top: 40px;
+  }
+  .cta h2 {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    margin-bottom: 12px;
+    color: #1a1a1a;
+  }
+  .cta p {
+    color: #6b7280;
+    font-size: 17px;
+    margin-bottom: 36px;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 44px;
+    border-radius: 100px;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid #1a1a1a;
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+  .cta-btn svg { width: 18px; height: 18px; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .navbar { padding: 16px 24px; }
+    .hero { padding: 130px 24px 60px; }
+    .roles, .clients, .section, .cta { padding-left: 24px; padding-right: 24px; }
+    .highlight-box { padding: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="#" class="logo"><span class="dot"></span> Socialmind</a>
+  <a href="#form" class="cta-nav">Mám zájem o pozici</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <h1>Hledáme posilu do týmu<br><span>Reels-maker / Editor</span></h1>
+  <div class="tags">
+    <span class="tag">IČO spolupráce</span>
+    <span class="tag">Remote friendly</span>
+    <span class="tag">Produkce v Praze</span>
+  </div>
+  <p class="intro">Tvoříme přes 100 videí měsíčně pro značky jako Foodora, Svijany, Trenýrkárna a mnoho dalších. A potřebujeme někoho, kdo nám s tím pomůže.</p>
+</section>
+
+<!-- Roles -->
+<section class="roles">
+  <p class="lead">Hledáme dvě role — vyber si, která sedí tobě:</p>
+  <div class="role-cards">
+    <div class="role-card">
+      <div class="icon">🎬</div>
+      <h3>Reels-maker</h3>
+      <p>Natáčíš i stříháš. Jsi na produkci, řešíš scénu, světlo, kompozici a pak to celé dotáhneš do finálního videa.</p>
+      <span class="tag-sm">Většinou Praha</span>
+    </div>
+    <div class="role-card">
+      <div class="icon">✂️</div>
+      <h3>Editor</h3>
+      <p>Stříháš na dálku. Dostáváš materiál z produkce a děláš z něj hotový reels — střih, titulky, timing, feeling.</p>
+      <span class="tag-sm">Odkudkoliv</span>
+    </div>
+  </div>
+</section>
+
+<!-- Co budeš dělat -->
+<section class="section">
+  <h2><span>Co</span> budeš dělat?</h2>
+  <ul>
+    <li>Přetavovat zadání od social media managerů do hotových videí</li>
+    <li>Stříhat, přidávat titulky, ladit timing a celkový feeling</li>
+    <li>Jako Reels-maker navíc: setup scény, světla, kompozice — prostě aby to dobře vypadalo</li>
+    <li>Zapracovávat zpětnou vazbu od klienta i týmu</li>
+    <li>Sledovat trendy a přirozeně je propisovat do výstupů</li>
+  </ul>
+</section>
+
+<!-- Co budeš potřebovat -->
+<section class="section">
+  <h2><span>Práce</span> u nás je pro tebe, pokud:</h2>
+  <ul>
+    <li>Máš portfolio s videi, na která jsi hrdý/á (a umíš vysvětlit, proč fungují)</li>
+    <li>Máš zkušenost se střihem (CapCut, Premiere nebo podobné)</li>
+    <li>Zvládneš video od natáčení po finální export (Reels-maker), nebo dotáhneš materiál do finální podoby (Editor)</li>
+    <li>Jsi samostatný/á — organizuješ si práci a dodáváš výstupy včas</li>
+  </ul>
+  <div class="advantage">
+    <p><strong>Výhodou bude,</strong> pokud máš vlastní techniku na natáčení — kameru, gimbal, světla (pokud nemáš, rádi ti ji půjčíme) nebo zkušenosti s produkcí pro klienty z různých oborů.</p>
+  </div>
+</section>
+
+<!-- Proč je u nás práce jiná -->
+<section class="section">
+  <h2><span>Proč</span> je u nás práce jiná?</h2>
+  <div class="highlight-box">
+    <div class="big-text">Soustředíš se čistě na kreativu.</div>
+    <p>Na produkci nejdeš sám/sama. Máš projektového manažera, který řeší komparz, lokace, herce, speakery — kompletní organizaci. Ty neřešíš scénáře, nehledáš inspiraci, nekomunikuješ s klientem. Všechno tohle zastřešujeme my.</p>
+  </div>
+  <p class="after-highlight">Od tebe chceme jednu věc — abys udělal/a co nejlepší video. A za projektem stojí celý tým, který ti pomáhá projekty odbavovat.</p>
+</section>
+
+<!-- Jak spolupráce funguje -->
+<section class="section">
+  <h2><span>Jak</span> spolupráce funguje?</h2>
+  <div class="collab-grid">
+    <div class="collab-item">
+      <div class="label">Forma</div>
+      <p>Spolupracujeme na <strong>IČO</strong> — máš věci ve svých rukou. Čas si organizuješ podle sebe, bereš si projekty podle své kapacity.</p>
+    </div>
+    <div class="collab-item">
+      <div class="label">Projekty</div>
+      <p>Práce je <strong>projektová</strong> — můžeš počítat se <strong>4 až 12 produkcemi měsíčně</strong> podle tvé kapacity.</p>
+    </div>
+    <div class="collab-item">
+      <div class="label">Odměna</div>
+      <p>Jeden bundle (v průměru 8 videí z jedné produkce) vychází na <strong>4 000 – 6 500 Kč</strong> podle zkušeností. S rostoucí senioritou roste i sazba.</p>
+    </div>
+    <div class="collab-item">
+      <div class="label">Místo</div>
+      <p>Remote je u nás standard, kancl máme v Praze, ale není povinnost. Žádné zbytečné hodiny navíc, žádné „sezení pro sezení".</p>
+    </div>
+  </div>
+</section>
+
+<!-- Co z toho máš ty -->
+<section class="section">
+  <h2><span>Proč</span> pracovat zrovna u nás?</h2>
+  <div class="benefits-grid">
+    <div class="benefit">
+      <div class="benefit-icon">🎨</div>
+      <h3>Kreativa na prvním místě</h3>
+      <p>Operativu, organizaci a komunikaci s klientem řešíme my.</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">⏰</div>
+      <h3>Flexibilita bez omezení</h3>
+      <p>Čas, místo i forma spolupráce je na tobě.</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">🎯</div>
+      <h3>Různorodé projekty</h3>
+      <p>Točíš pro různé značky a obory, nespadneš do rutiny.</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">🤝</div>
+      <h3>Tým za zády</h3>
+      <p>Na projektech nejsi sám/sama.</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">💬</div>
+      <h3>Férové jednání</h3>
+      <p>Říkáme věci na rovinu, interně i ke klientům.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="form">
+  <h2>Zaujali jsme tě?</h2>
+  <p>Vyplň krátký formulář a přidej odkaz na své portfolio. Ozveme se ti do několika dní.</p>
+  <a href="#" class="cta-btn">
+    Mám zájem o pozici
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+  </a>
+</section>
+
+</body>
+</html>
